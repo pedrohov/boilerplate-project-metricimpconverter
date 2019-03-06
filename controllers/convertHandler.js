@@ -11,14 +11,22 @@ function ConvertHandler() {
   this.getNum = function(input) {
     
     let numbersOnlyRegex = /\d*?\.?\d+\/?(\d*?\.?\d*)?/;
-    let fractionRegex = /\d*?\.?\d*\/\d*?\.?\d*/;
+    let fractionRegex = /\d*?\.?\d+\/\d*?\.?\d*/;
     let doubleFractionRegex = /\d*?\.?\d*\/\d*?\.?\d*\/\d*?\.?\d*/;
     
     // Transform input to lower case:
     var result = input.toLowerCase();
     
     // Remove the unit:
-    result = result.match(numbersOnlyRegex);
+    // For double fraction:
+    if(result.match(doubleFractionRegex))
+      result = result.match(doubleFractionRegex);
+    // For fraction:
+    else if(result.match(fractionRegex))
+      result = result.match(fractionRegex);
+    // For decimal number:
+    else
+      result = result.match(numbersOnlyRegex);
     
     // Check if the test was successful:
     if(result)
@@ -26,12 +34,11 @@ function ConvertHandler() {
     
     // Check for fractions:
     if(!doubleFractionRegex.test(result) && fractionRegex.test(result)) {
-      console.log('wtf');
       let slashIndex = input.indexOf('/');
       let numerator = input.slice(0, slashIndex);
       let denominator = input.slice(slashIndex + 1, input.length);
       result = parseFloat(numerator) / parseFloat(denominator);
-      result = result.toFixed(5);
+      result = parseFloat(result.toFixed(5));
     // Check for empty number:
     } else if(!result) {
       result = 1;
@@ -93,9 +100,9 @@ function ConvertHandler() {
       result = 'pounds';
     else if(unit === 'mi')
       result = 'miles';
-    else if(unit === 'gal')
+    else if(unit === 'l')
       result = 'liters';
-    else if(unit === 'lbs')
+    else if(unit === 'kg')
       result = 'kilograms';
     else if(unit === 'km')
       result = 'kilometers';
@@ -123,7 +130,7 @@ function ConvertHandler() {
       result = initNum / miToKm;
     
     if(result)
-      result = result.toFixed(5);
+      result = parseFloat(result.toFixed(5));
     
     return result;
   };

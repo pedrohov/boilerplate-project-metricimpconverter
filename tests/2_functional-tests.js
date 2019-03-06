@@ -26,7 +26,7 @@ suite('Functional Tests', function() {
         .end(function(err, res){
           assert.equal(res.status, 200);
           assert.equal(res.body.initNum, 10);
-          assert.equal(res.body.initUnit, 'L');
+          assert.equal(res.body.initUnit, 'l');
           assert.approximately(res.body.returnNum, 2.64172, 0.1);
           assert.equal(res.body.returnUnit, 'gal');
           done();
@@ -39,7 +39,7 @@ suite('Functional Tests', function() {
           .query({ input: '32g' })
           .end(function(err, res) {
             assert.equal(res.status, 200);
-            assert.equal(res.body, 'Invalid unit');
+            assert.equal(res.text, 'Invalid unit');
             done();
           });
       });
@@ -50,7 +50,7 @@ suite('Functional Tests', function() {
           .query({ input: '3/7.2/4kg' })
           .end(function(err, res) {
             assert.equal(res.status, 200);
-            assert.equal(res.body, 'Invalid number');
+            assert.equal(res.text, 'Invalid number');
             done();
           });
       });  
@@ -61,7 +61,7 @@ suite('Functional Tests', function() {
           .query({ input: '3/7.2/4kilomegagram' })
           .end(function(err, res) {
             assert.equal(res.status, 200);
-            assert.equal(res.body, 'Invalid number and unit');
+            assert.equal(res.text, 'Invalid number and unit');
             done();
           });
       });

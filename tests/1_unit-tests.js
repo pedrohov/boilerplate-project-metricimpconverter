@@ -109,7 +109,7 @@ suite('Unit Tests', function(){
     
     test('L to Gal', function(done) {
       var input = [5, 'l'];
-      var expected = 11.02312;
+      var expected = 1.32086;
       assert.approximately(convertHandler.convert(input[0], input[1]), expected, 0.1);
       done();
     });
